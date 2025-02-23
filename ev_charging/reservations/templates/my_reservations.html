@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}My Reservations{% endblock %}
+
+{% block content %}
+    <h2>📌 My Reservations</h2>
+
+    {% if reservations %}
+        <div class="reservations-container">
+            {% for reservation in reservations %}
+                <div class="reservation-card">
+                    <p><strong>📍 Station:</strong> {{ reservation.slot.station.name }}</p>
+                    <p><strong>🔢 Slot Number:</strong> {{ reservation.slot.slot_number }}</p>
+                    <p><strong>⏰ Start Time:</strong> {{ reservation.start_time }}</p>
+                    <p><strong>⌛ End Time:</strong> {{ reservation.end_time }}</p>
+                    <p><strong>🆔 Booking ID:</strong> {{ reservation.id }}</p>
+                    
+                    <!-- ✅ Cancel Reservation Button -->
+                    <form action="{% url 'cancel_reservation' reservation.id %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="cancel-btn">❌ Cancel Reservation</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No reservations found.</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="btn">🏠 Back to Home</a>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .reservations-container {
+            width: 60%;
+            margin: auto;
+        }
+        .reservation-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .btn, .cancel-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .cancel-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+        }
+        .cancel-btn:hover {
+            background: #c82333;
+        }
+    </style>
+{% endblock %}

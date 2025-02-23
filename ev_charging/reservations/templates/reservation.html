@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Reserve a Slot{% endblock %}
+
+{% block content %}
+    <h2>⚡ Reserve Your Charging Slot</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <label for="station">📍 Select Station:</label>
+        <select name="station" id="station">
+            {% for station in stations %}
+                <option value="{{ station.id }}">{{ station.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="slot">🔢 Select Slot:</label>
+        <select name="slot" id="slot">
+            {% for slot in slots %}
+                <option value="{{ slot.id }}">Slot {{ slot.slot_number }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="start_time">⏰ Start Time:</label>
+        <input type="datetime-local" name="start_time" required>
+
+        <label for="end_time">⌛ End Time:</label>
+        <input type="datetime-local" name="end_time" required>
+
+        <button type="submit" class="btn">🚀 Reserve Now</button>
+    </form>
+
+    <a href="{% url 'my_reservations' %}" class="btn">📌 View My Reservations</a>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            width: 50%;
+            margin: auto;
+            text-align: left;
+        }
+        label, select, input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #218838;
+        }
+    </style>
+    {% if messages %}
+    <script>
+        window.onload = function() {
+            {% for message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        }
+    </script>
+{% endif %}
+{% endblock %}

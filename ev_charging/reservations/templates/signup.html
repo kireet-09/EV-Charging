@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Username:</label>
+            {{ form.username }}
+            
+            <label>Email:</label>
+            {{ form.email }}
+            
+            <label>Password:</label>
+            {{ form.password }}
+            
+            <label>Phone Number:</label>
+            {{ form.phone_number }}
+        
+            <button type="submit">Sign Up</button>
+        </form>
+        
+        
+    </div>
+    <script>
+        async function signupUser(event) {
+            event.preventDefault();
+            const username = document.getElementById("signup-username").value;
+            const password = document.getElementById("signup-password").value;
+
+            const response = await fetch("/signup/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                window.location.href = "reservation.html";
+            } else {
+                alert(data.error);
+            }
+        }
+    </script>
+</body>
+</html>
