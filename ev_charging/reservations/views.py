@@ -46,7 +46,14 @@ def signup_user(request):
 @login_required
 def reservation(request):
     stations = Station.objects.all()
-    slots = Slot.objects.filter(is_available=True)
+
+    # ✅ Show only slots that are either available OR whose reservation has ended
+    current_time = timezone.now()
+    slots = Slot.objects.filter(
+        is_available=True
+    ) | Slot.objects.filter(
+        reservation__end_time__lt=current_time  # Show slots where the last reservation has ended
+    )
 
     if request.method == 'POST':
         slot_id = request.POST.get('slot')
@@ -59,18 +66,30 @@ def reservation(request):
 
         slot = get_object_or_404(Slot, id=slot_id)
 
-        # ✅ Prevent double booking
-        if not slot.is_available:
-            messages.error(request, "⚠ This slot is already booked! Please choose another slot.")
-            return redirect('reservation')
-
         # ✅ Convert string input to timezone-aware datetime
         start_time = timezone.make_aware(datetime.datetime.fromisoformat(start_time))
         end_time = timezone.make_aware(datetime.datetime.fromisoformat(end_time))
 
-        # ✅ Mark the slot as unavailable
-        slot.is_available = False
-        slot.save()
+        # ✅ Validate that start_time is in the future
+        if start_time < timezone.now():
+            messages.error(request, "⚠ Start time must be in the future!")
+            return redirect('reservation')
+
+        # ✅ Validate that end_time is after start_time
+        if end_time <= start_time:
+            messages.error(request, "⚠ End time must be after start time!")
+            return redirect('reservation')
+
+        # ✅ Check if the slot is already booked during the requested time
+        overlapping_reservations = Reservation.objects.filter(
+            slot=slot,
+            start_time__lt=end_time,
+            end_time__gt=start_time
+        ).exists()
+
+        if overlapping_reservations:
+            messages.error(request, "⚠ This slot is already booked for the selected time!")
+            return redirect('reservation')
 
         # ✅ Create reservation
         reservation = Reservation.objects.create(
@@ -103,6 +122,7 @@ def reservation(request):
         return redirect('reservation_success', reservation.id)
 
     return render(request, 'reservation.html', {'stations': stations, 'slots': slots})
+
 @login_required
 def reservation_success(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
