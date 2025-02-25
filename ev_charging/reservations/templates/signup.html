@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-
 </head>
 <body>
     <div class="container">
@@ -28,27 +27,16 @@
             <button type="submit">Sign Up</button>
         </form>
         
-        
+        {% if form.errors %}
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li style="color:red;">{{ field }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
-    <script>
-        async function signupUser(event) {
-            event.preventDefault();
-            const username = document.getElementById("signup-username").value;
-            const password = document.getElementById("signup-password").value;
-
-            const response = await fetch("/signup/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                window.location.href = "reservation.html";
-            } else {
-                alert(data.error);
-            }
-        }
-    </script>
 </body>
 </html>
+

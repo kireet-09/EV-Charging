@@ -86,3 +86,8 @@ button:hover {
 .popup-content button:hover {
     background-color: #218838;
 }
+
+.dark-mode {
+    background-color: #121212;
+    color: white;
+}

@@ -1,55 +1,24 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}EV Charging{% endblock %}</title>
+    <title>{% block title %}EV Charging{% endblock %}</title>  <!-- ✅ Keep only this one -->
+    
     <style>
-        /* ✅ Navbar Styling */
-        /* ✅ Fix Navbar Layout */
-nav {
-    background: #007bff;
-    padding: 15px;
-    text-align: center;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
-
-/* ✅ Make links & buttons look identical */
-nav a, .logout-btn {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 18px;
-    font-weight: bold;
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: inline-block;
-    padding: 0;
-}
-
-/* ✅ Remove white border issue */
-.logout-form {
-    display: inline;  /* Makes form behave like an inline element */
-}
-
-/* ✅ Hover Effect */
-nav a:hover, .logout-btn:hover {
-    text-decoration: underline;
-}
-
-        .logout-btn {
-            font-size: 18px;
-            font-weight: bold;
+        /* ✅ Dark Mode Styling */
+        body {
+            background-color: white;
+            color: black;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #121212;
             color: white;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: inline;
+        }
+        .dark-mode .container {
+            background: #1e1e1e;
+            color: white;
         }
         .container {
             width: 50%;
@@ -58,37 +27,63 @@ nav a:hover, .logout-btn:hover {
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            margin-top: 80px; /* ✅ Prevents content from being hidden under fixed navbar */
+            margin-top: 80px;
+        }
+        .toggle-btn {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            padding: 10px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        nav {
+            background: #007bff;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+        .dark-mode nav {
+            background: #1e1e1e;
         }
     </style>
 </head>
 <body>
+    <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
 
-    <!-- ✅ Fix: Navbar is now properly structured -->
     <nav>
         <a href="{% url 'home' %}">🏠 Home</a>
-    
         {% if user.is_authenticated %}
             <a href="{% url 'my_reservations' %}">📌 My Reservations</a>
-    
-            <!-- ✅ Logout Link with Event Listener -->
             <a href="#" id="logout-link">🚪 Logout</a>
-    
-            <!-- ✅ Hidden Logout Form (For CSRF Token) -->
             <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
                 {% csrf_token %}
             </form>
-    
             <script>
                 document.getElementById("logout-link").addEventListener("click", function(event) {
-                    event.preventDefault();  // ✅ Prevents default behavior
+                    event.preventDefault();
                     logoutUser();
                 });
-    
                 function getCSRFToken() {
                     return document.querySelector('#logout-form input[name="csrfmiddlewaretoken"]').value;
                 }
-    
                 function logoutUser() {
                     fetch("{% url 'logout' %}", {
                         method: "POST",
@@ -99,20 +94,20 @@ nav a:hover, .logout-btn:hover {
                         credentials: "same-origin"
                     }).then(response => {
                         if (response.redirected) {
-                            window.location.href = response.url;  // ✅ Redirect after logout
+                            window.location.href = response.url;
                         }
                     }).catch(error => console.error("Logout failed:", error));
                 }
             </script>
-    
         {% else %}
             <a href="{% url 'login' %}">🔑 Login</a>
         {% endif %}
-    </nav>      
+    </nav>
 
     <div class="container">
         {% block content %}{% endblock %}
     </div>
-
+</body>
+</html>
 </body>
 </html>

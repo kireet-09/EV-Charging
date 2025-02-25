@@ -7,6 +7,8 @@ from .forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .utils import send_reservation_email
+from django.utils import timezone
+import datetime
 
 def home(request):
     return render(request, 'home.html')
@@ -62,6 +64,10 @@ def reservation(request):
             messages.error(request, "⚠ This slot is already booked! Please choose another slot.")
             return redirect('reservation')
 
+        # ✅ Convert string input to timezone-aware datetime
+        start_time = timezone.make_aware(datetime.datetime.fromisoformat(start_time))
+        end_time = timezone.make_aware(datetime.datetime.fromisoformat(end_time))
+
         # ✅ Mark the slot as unavailable
         slot.is_available = False
         slot.save()
@@ -97,7 +103,6 @@ def reservation(request):
         return redirect('reservation_success', reservation.id)
 
     return render(request, 'reservation.html', {'stations': stations, 'slots': slots})
-
 @login_required
 def reservation_success(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
