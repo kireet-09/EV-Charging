@@ -9,6 +9,10 @@ from django.contrib import messages
 from .utils import send_reservation_email
 from django.utils import timezone
 import datetime
+import qrcode
+from io import BytesIO
+import base64
+from .models import Station
 
 def home(request):
     return render(request, 'home.html')
@@ -126,11 +130,33 @@ def reservation(request):
 @login_required
 def reservation_success(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
-    return render(request, 'reservation_success.html', {'reservation': reservation})
+
+    # Generate QR code
+    qr_data = f"Reservation ID: {reservation.id}\nStation: {reservation.slot.station.name}\nSlot: {reservation.slot.slot_number}\nStart: {reservation.start_time}\nEnd: {reservation.end_time}"
+    qr = qrcode.make(qr_data)
+    
+    # Convert QR code to base64 for embedding in HTML
+    qr_buffer = BytesIO()
+    qr.save(qr_buffer, format="PNG")
+    qr_base64 = base64.b64encode(qr_buffer.getvalue()).decode()
+
+    return render(request, 'reservation_success.html', {'reservation': reservation, 'qr_code': qr_base64})
 
 @login_required
 def my_reservations(request):
     reservations = Reservation.objects.filter(user=request.user).order_by('-start_time')
+
+    for reservation in reservations:
+        qr_data = f"Reservation ID: {reservation.id}\nStation: {reservation.slot.station.name}\nSlot: {reservation.slot.slot_number}\nStart: {reservation.start_time}\nEnd: {reservation.end_time}"
+        qr = qrcode.make(qr_data)
+
+        # Convert QR to base64 string
+        qr_buffer = BytesIO()
+        qr.save(qr_buffer, format="PNG")
+        qr_base64 = base64.b64encode(qr_buffer.getvalue()).decode()
+
+        reservation.qr_code = qr_base64  # Attach QR code to each reservation object
+
     return render(request, 'my_reservations.html', {'reservations': reservations})
 
 @login_required
@@ -162,3 +188,7 @@ def cancel_reservation(request, reservation_id):
 
     messages.success(request, "Your reservation has been canceled. A confirmation email has been sent.")
     return redirect('my_reservations')
+
+def station_map(request):
+    stations = Station.objects.all()
+    return render(request, 'stations.html', {'stations': stations})

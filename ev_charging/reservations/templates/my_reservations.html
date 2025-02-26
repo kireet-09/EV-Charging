@@ -14,7 +14,10 @@
                     <p><strong>⏰ Start Time:</strong> {{ reservation.start_time }}</p>
                     <p><strong>⌛ End Time:</strong> {{ reservation.end_time }}</p>
                     <p><strong>🆔 Booking ID:</strong> {{ reservation.id }}</p>
-                    
+                    {% if reservation.qr_code %}
+                    <h3>📄 QR Code for Check-in:</h3>
+                    <img src="data:image/png;base64,{{ reservation.qr_code }}" alt="Reservation QR Code">
+                {% endif %}
                     <!-- ✅ Cancel Reservation Button -->
                     <form action="{% url 'cancel_reservation' reservation.id %}" method="POST" style="display:inline;">
                         {% csrf_token %}

@@ -15,6 +15,12 @@
             <p><strong>🆔 Booking ID:</strong> {{ reservation.id }}</p>
         </div>
 
+        <!-- ✅ QR Code Section -->
+        {% if qr_code %}
+            <h3>Scan this QR Code at the station:</h3>
+            <img src="data:image/png;base64,{{ qr_code }}" alt="Reservation QR Code">
+        {% endif %}
+
         <a href="{% url 'home' %}" class="btn">🏠 Back to Home</a>
     </div>
 

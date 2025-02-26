@@ -4,7 +4,7 @@ from .views import  home, login_user, signup_user
 from .views import reservation, reservation_success, cancel_reservation
 from .views import my_reservations
 from django.contrib.auth import views as auth_views
-
+from .views import station_map
 
 urlpatterns = [
     path('', home, name='home'),
@@ -15,6 +15,6 @@ urlpatterns = [
     path('my-reservations/', my_reservations, name='my_reservations'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # ✅ Add logout route
     path('cancel-reservation/<int:reservation_id>/', cancel_reservation, name='cancel_reservation'),
-
+    path('stations/', station_map, name='stations'),
 
 ]

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Find Charging Stations{% endblock %}
+
+{% block content %}
+    <h2>🔋 Find EV Charging Stations</h2>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+
+    <script>
+        function initMap() {
+            console.log("Google Maps script loaded!");
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: { lat: 28.6139, lng: 77.2090 } 
+            });
+    
+            var stations = [
+                {% for station in stations %}
+                    { 
+                        name: "{{ station.name }}",
+                        lat: {{ station.latitude }},
+                        lng: {{ station.longitude }}
+                    }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+    
+            stations.forEach(station => {
+                var marker = new google.maps.Marker({
+                    position: { lat: station.lat, lng: station.lng },
+                    map: map,
+                    title: station.name
+                });
+    
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `<h4>${station.name}</h4><p>Reserve a slot now!</p>
+                              <a href="{% url 'reservation' %}">Reserve</a>`
+                });
+    
+                marker.addListener("click", () => {
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+    </script>
+    
+    <!-- ✅ Load Google Maps API *after* defining initMap() -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aYBJFj6S5m9Q_7gn7u0LPtKfUz3kJ3U&callback=initMap&loading=async"></script>
+    
+{% endblock %}
