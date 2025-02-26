@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+import qrcode
+import base64
+from io import BytesIO
 
 class Station(models.Model):
     name = models.CharField(max_length=100)
@@ -19,6 +22,25 @@ class Reservation(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     is_paid = models.BooleanField(default=False)
+    carpool_opt_in = models.BooleanField(default=False)
+    qr_code = models.TextField(blank=True, null=True)  # ✅ Add QR Code field
+
+    def generate_qr_code(self):
+        """Generate a QR code for the reservation."""
+        qr = qrcode.make(f"Reservation ID: {self.id}\nUser: {self.user.username}\nStation: {self.slot.station.name}")
+        buffer = BytesIO()
+        qr.save(buffer, format="PNG")
+        return base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    def save(self, *args, **kwargs):
+        # ✅ Generate QR Code if it does not exist
+        if not self.qr_code:
+            qr = qrcode.make(f"Reservation ID: {self.id}\nUser: {self.user.username}\nStation: {self.slot.station.name}")
+            buffer = BytesIO()
+            qr.save(buffer, format="PNG")
+            self.qr_code = base64.b64encode(buffer.getvalue()).decode('utf-8')
+        
+        super().save(*args, **kwargs)
 
 class Payment(models.Model):
     reservation = models.OneToOneField(Reservation, on_delete=models.CASCADE)

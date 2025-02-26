@@ -51,7 +51,7 @@ def signup_user(request):
 def reservation(request):
     stations = Station.objects.all()
 
-    # ✅ Show only slots that are either available OR whose reservation has ended
+    # ✅ Show only slots that are available OR whose last reservation has ended
     current_time = timezone.now()
     slots = Slot.objects.filter(
         is_available=True
@@ -63,6 +63,7 @@ def reservation(request):
         slot_id = request.POST.get('slot')
         start_time = request.POST.get('start_time')
         end_time = request.POST.get('end_time')
+        carpool = request.POST.get('carpool') == "on"  # ✅ Check if carpooling is selected
 
         if not slot_id or not start_time or not end_time:
             messages.error(request, "⚠ All fields are required!")
@@ -95,13 +96,22 @@ def reservation(request):
             messages.error(request, "⚠ This slot is already booked for the selected time!")
             return redirect('reservation')
 
-        # ✅ Create reservation
+        # ✅ Create reservation with carpooling preference
         reservation = Reservation.objects.create(
             user=request.user,
             slot=slot,
             start_time=start_time,
-            end_time=end_time
+            end_time=end_time,
+            carpool_opt_in=carpool  # ✅ Save carpooling choice
         )
+
+        # ✅ Find carpooling users (same station & overlapping time)
+        carpool_matches = Reservation.objects.filter(
+            slot__station=reservation.slot.station,  # Same station
+            start_time__lt=reservation.end_time,  # Overlapping time
+            end_time__gt=reservation.start_time,  # Overlapping time
+            carpool_opt_in=True  # Must have opted for carpooling
+        ).exclude(user=reservation.user)  # Exclude current user
 
         # ✅ Send confirmation email
         subject = "EV Charging Reservation Confirmed 🚗⚡"
@@ -114,6 +124,9 @@ def reservation(request):
         🔢 Slot Number: {reservation.slot.slot_number}
         ⏰ Start Time: {reservation.start_time}
         ⏳ End Time: {reservation.end_time}
+
+        { "🚗 You have opted for carpooling! Here are your carpool matches:\n" if carpool_matches else "If you want to carpool, you can edit your reservation." }
+        { ''.join([f'- {match.user.username}\n' for match in carpool_matches]) if carpool_matches else '' }
 
         Thank you for using our service!
 
@@ -144,18 +157,21 @@ def reservation_success(request, reservation_id):
 
 @login_required
 def my_reservations(request):
-    reservations = Reservation.objects.filter(user=request.user).order_by('-start_time')
+    """Show all reservations for the logged-in user and fetch potential carpool users."""
 
-    for reservation in reservations:
-        qr_data = f"Reservation ID: {reservation.id}\nStation: {reservation.slot.station.name}\nSlot: {reservation.slot.slot_number}\nStart: {reservation.start_time}\nEnd: {reservation.end_time}"
-        qr = qrcode.make(qr_data)
+    # ✅ Fetch all reservations for the current user
+    user_reservations = Reservation.objects.filter(user=request.user)
 
-        # Convert QR to base64 string
-        qr_buffer = BytesIO()
-        qr.save(qr_buffer, format="PNG")
-        qr_base64 = base64.b64encode(qr_buffer.getvalue()).decode()
+    # ✅ Fetch ALL reservations where carpooling is enabled, in the same station, and has overlapping time
+    all_carpool_reservations = Reservation.objects.filter(
+        slot__station__in=user_reservations.values_list('slot__station', flat=True),  # Same station
+        carpool_opt_in=True
+    ).exclude(user=request.user)  # ✅ Exclude the current user
 
-        reservation.qr_code = qr_base64  # Attach QR code to each reservation object
+    return render(request, 'my_reservations.html', {
+        'reservations': user_reservations,  # ✅ User's own reservations
+        'all_carpool_reservations': all_carpool_reservations  # ✅ Carpool matches
+    })  
 
     return render(request, 'my_reservations.html', {'reservations': reservations})
 

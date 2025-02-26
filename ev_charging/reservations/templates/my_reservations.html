@@ -14,15 +14,38 @@
                     <p><strong>⏰ Start Time:</strong> {{ reservation.start_time }}</p>
                     <p><strong>⌛ End Time:</strong> {{ reservation.end_time }}</p>
                     <p><strong>🆔 Booking ID:</strong> {{ reservation.id }}</p>
+
+                    <!-- ✅ QR Code Display -->
                     {% if reservation.qr_code %}
-                    <h3>📄 QR Code for Check-in:</h3>
-                    <img src="data:image/png;base64,{{ reservation.qr_code }}" alt="Reservation QR Code">
-                {% endif %}
-                {% if not reservation.is_paid %}
-                 <a href="{% url 'dummy_payment' reservation.id %}" class="pay-btn">💳 Pay Now</a>
+                    <div class="qr-code-container">
+                        <h3>📄 QR Code for Check-in:</h3>
+                        <img src="data:image/png;base64,{{ reservation.qr_code }}" alt="Reservation QR Code">
+                    </div>
                 {% else %}
-                <p>✅ Payment Completed</p>
+                    <p>⚠ QR Code not available.</p>
                 {% endif %}
+
+                    <!-- ✅ Simulated Payment Button -->
+                    {% if not reservation.is_paid %}
+                        <a href="{% url 'dummy_payment' reservation.id %}" class="pay-btn">💳 Pay Now</a>
+                    {% else %}
+                        <p>✅ Payment Completed</p>
+                    {% endif %}
+
+                    <!-- ✅ Carpooling Section -->
+                    {% if reservation.carpool_opt_in %}
+                        <h3>🚗 Carpooling Users</h3>
+                        <ul>
+                            {% for carpool_user in all_carpool_reservations %}
+                                {% if carpool_user.slot.station == reservation.slot.station and carpool_user.start_time < reservation.end_time and carpool_user.end_time > reservation.start_time %}
+                                    <li>{{ carpool_user.user.username }}</li>
+                                {% endif %}
+                            {% empty %}
+                                <p>No carpool matches found yet.</p>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
                     <!-- ✅ Cancel Reservation Button -->
                     <form action="{% url 'cancel_reservation' reservation.id %}" method="POST" style="display:inline;">
                         {% csrf_token %}
@@ -54,8 +77,23 @@
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             margin-bottom: 15px;
             text-align: left;
+            position: relative;
+            overflow: hidden;
         }
-        .btn, .cancel-btn {
+        .qr-code-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .qr-code-container img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+            margin: auto;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+        }
+        .btn, .cancel-btn, .pay-btn {
             display: inline-block;
             padding: 10px 15px;
             text-decoration: none;
@@ -79,18 +117,13 @@
         .cancel-btn:hover {
             background: #c82333;
         }
-            .pay-btn {
-                background: #28a745;
-                color: white;
-                padding: 10px 15px;
-                text-decoration: none;
-                border-radius: 5px;
-                margin-top: 10px;
-                display: inline-block;
-            }
-            .pay-btn:hover {
-                background: #218838;
-            }
-        
+        .pay-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+        }
+        .pay-btn:hover {
+            background: #218838;
+        }
     </style>
 {% endblock %}
