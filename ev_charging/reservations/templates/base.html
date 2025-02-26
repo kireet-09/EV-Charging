@@ -76,32 +76,12 @@
             <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
                 {% csrf_token %}
             </form>
-            <script>
-                document.getElementById("logout-link").addEventListener("click", function(event) {
-                    event.preventDefault();
-                    logoutUser();
-                });
-                function getCSRFToken() {
-                    return document.querySelector('#logout-form input[name="csrfmiddlewaretoken"]').value;
-                }
-                function logoutUser() {
-                    fetch("{% url 'logout' %}", {
-                        method: "POST",
-                        headers: {
-                            "X-CSRFToken": getCSRFToken(),
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        },
-                        credentials: "same-origin"
-                    }).then(response => {
-                        if (response.redirected) {
-                            window.location.href = response.url;
-                        }
-                    }).catch(error => console.error("Logout failed:", error));
-                }
-            </script>
         {% else %}
             <a href="{% url 'login' %}">🔑 Login</a>
         {% endif %}
+        
+        <!-- ✅ Move Dark Mode Button Inside Navbar -->
+        <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
     </nav>
 
     <div class="container">

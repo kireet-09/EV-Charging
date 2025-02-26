@@ -87,7 +87,70 @@ button:hover {
     background-color: #218838;
 }
 
-.dark-mode {
-    background-color: #121212;
+.toggle-btn {
+    position: absolute;  /* ✅ Keep button inside the navbar */
+    right: 20px;  /* Align to the right */
+    top: 50%;
+    transform: translateY(-50%);  /* ✅ Center it vertically */
+    background: #222;
     color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1001;  /* ✅ Ensure it stays above everything */
+}
+
+.toggle-btn:hover {
+    background: #444;
+}
+
+/* Navbar Styling */
+.navbar {
+    position: fixed;  /* ✅ Fix navbar at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #333;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;  /* ✅ Ensures it stays on top */
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar ul li {
+    display: inline;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.navbar ul li a:hover {
+    text-decoration: underline;
+}
+
+/* ✅ Dark Mode Button Styling */
+.dark-mode-toggle {
+    background: #222;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dark-mode-toggle:hover {
+    background: #444;
 }
