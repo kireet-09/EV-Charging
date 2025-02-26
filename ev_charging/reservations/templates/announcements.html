@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Announcements{% endblock %}
+
+{% block content %}
+    <h2>📢 Latest Announcements</h2>
+    
+    {% if announcements %}
+        <div class="announcements-container">
+            {% for announcement in announcements %}
+                <div class="announcement-card">
+                    <h3>{{ announcement.title }}</h3>
+                    <p>{{ announcement.content }}</p>
+                    <small>📅 Posted on: {{ announcement.created_at|date:"F d, Y" }}</small>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No announcements available.</p>
+    {% endif %}
+{% endblock %}

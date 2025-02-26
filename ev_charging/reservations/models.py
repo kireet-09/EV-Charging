@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import qrcode
 import base64
 from io import BytesIO
+from django.utils.timezone import now
 
 class Station(models.Model):
     name = models.CharField(max_length=100)
@@ -50,3 +51,11 @@ class Payment(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
+
+class Announcement(models.Model):
+    title = models.CharField(max_length=255)  # Title of the announcement
+    content = models.TextField()  # Announcement details
+    created_at = models.DateTimeField(default=now)  # Timestamp
+
+    def __str__(self):
+        return self.title

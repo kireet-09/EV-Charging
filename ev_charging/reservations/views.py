@@ -13,6 +13,7 @@ import qrcode
 from io import BytesIO
 import base64
 from .models import Station
+from .models import Announcement
 
 def home(request):
     return render(request, 'home.html')
@@ -218,3 +219,7 @@ def dummy_payment(request, reservation_id):
 
     messages.success(request, "✅ Payment Successful! Your slot is confirmed.")
     return redirect("my_reservations")  # Redirect back to reservations
+
+def announcements(request):
+    all_announcements = Announcement.objects.order_by('-created_at')  # Latest first
+    return render(request, 'announcements.html', {'announcements': all_announcements})

@@ -68,21 +68,25 @@
         }
     </script>
 
-    <nav>
-        <a href="{% url 'home' %}">🏠 Home</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'my_reservations' %}">📌 My Reservations</a>
-            <a href="#" id="logout-link">🚪 Logout</a>
-            <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                {% csrf_token %}
-            </form>
-        {% else %}
-            <a href="{% url 'login' %}">🔑 Login</a>
-        {% endif %}
-        
-        <!-- ✅ Move Dark Mode Button Inside Navbar -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="{% url 'home' %}">🏠 Home</a>
+            <a href="{% url 'announcements' %}">📢 Announcements</a>  <!-- ✅ Announcements Link -->
+            {% if user.is_authenticated %}
+                <a href="{% url 'my_reservations' %}">📌 My Reservations</a>
+                <a href="#" id="logout-link">🚪 Logout</a>
+                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                    {% csrf_token %}
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">🔑 Login</a>
+            {% endif %}
+        </div>
+    
+        <!-- ✅ Properly aligned Dark Mode button -->
         <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
     </nav>
+    
 
     <div class="container">
         {% block content %}{% endblock %}

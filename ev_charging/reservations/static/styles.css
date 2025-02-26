@@ -88,10 +88,6 @@ button:hover {
 }
 
 .toggle-btn {
-    position: absolute;  /* ✅ Keep button inside the navbar */
-    right: 20px;  /* Align to the right */
-    top: 50%;
-    transform: translateY(-50%);  /* ✅ Center it vertically */
     background: #222;
     color: white;
     padding: 8px 12px;
@@ -99,7 +95,6 @@ button:hover {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    z-index: 1001;  /* ✅ Ensure it stays above everything */
 }
 
 .toggle-btn:hover {
@@ -108,17 +103,19 @@ button:hover {
 
 /* Navbar Styling */
 .navbar {
-    position: fixed;  /* ✅ Fix navbar at the top */
+    background: #007bff;
+    padding: 15px 20px;
+    width: 100%;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    background: #333;
-    padding: 15px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;  /* ✅ Ensures items are spaced correctly */
     align-items: center;
-    z-index: 1000;  /* ✅ Ensures it stays on top */
+    z-index: 1000;
+    transition: background-color 0.3s;
 }
+
 
 .navbar ul {
     list-style: none;
@@ -139,6 +136,15 @@ button:hover {
 .navbar ul li a:hover {
     text-decoration: underline;
 }
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
 
 /* ✅ Dark Mode Button Styling */
 .dark-mode-toggle {
@@ -153,4 +159,26 @@ button:hover {
 
 .dark-mode-toggle:hover {
     background: #444;
+}
+.announcements-container {
+    width: 60%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.announcement-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.announcement-card h3 {
+    color: #007bff;
+}
+
+.announcement-card small {
+    color: gray;
 }
