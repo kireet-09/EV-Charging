@@ -192,3 +192,13 @@ def cancel_reservation(request, reservation_id):
 def station_map(request):
     stations = Station.objects.all()
     return render(request, 'stations.html', {'stations': stations})
+
+def dummy_payment(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
+    
+    # ✅ Simulate a successful payment
+    reservation.is_paid = True  
+    reservation.save()
+
+    messages.success(request, "✅ Payment Successful! Your slot is confirmed.")
+    return redirect("my_reservations")  # Redirect back to reservations

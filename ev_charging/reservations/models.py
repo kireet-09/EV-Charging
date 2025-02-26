@@ -18,6 +18,7 @@ class Reservation(models.Model):
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    is_paid = models.BooleanField(default=False)
 
 class Payment(models.Model):
     reservation = models.OneToOneField(Reservation, on_delete=models.CASCADE)

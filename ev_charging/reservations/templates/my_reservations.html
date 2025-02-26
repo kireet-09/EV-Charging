@@ -18,6 +18,11 @@
                     <h3>📄 QR Code for Check-in:</h3>
                     <img src="data:image/png;base64,{{ reservation.qr_code }}" alt="Reservation QR Code">
                 {% endif %}
+                {% if not reservation.is_paid %}
+                 <a href="{% url 'dummy_payment' reservation.id %}" class="pay-btn">💳 Pay Now</a>
+                {% else %}
+                <p>✅ Payment Completed</p>
+                {% endif %}
                     <!-- ✅ Cancel Reservation Button -->
                     <form action="{% url 'cancel_reservation' reservation.id %}" method="POST" style="display:inline;">
                         {% csrf_token %}
@@ -74,5 +79,18 @@
         .cancel-btn:hover {
             background: #c82333;
         }
+            .pay-btn {
+                background: #28a745;
+                color: white;
+                padding: 10px 15px;
+                text-decoration: none;
+                border-radius: 5px;
+                margin-top: 10px;
+                display: inline-block;
+            }
+            .pay-btn:hover {
+                background: #218838;
+            }
+        
     </style>
 {% endblock %}
