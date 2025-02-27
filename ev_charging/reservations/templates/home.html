@@ -8,11 +8,47 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <div class="container">
-        <h1>Smart EV Charging</h1>
-        <button onclick="location.href='/login/'">Login</button>
-        <button onclick="location.href='/signup/'">Sign Up</button>
-        <button onclick="location.href='{% url 'stations' %}'">📍 Find Charging Stations</button>
-    </div>
+    <header class="header">
+        <div class="logo-container">
+            <img src="{% static 'logo.png' %}" alt="Logo Placeholder">
+        </div>
+        <nav class="nav-container">
+            <a href="#about">About Us</a>
+        </nav>
+        <div class="auth-buttons">
+            <button onclick="location.href='/login/'">Login</button>
+            <button onclick="location.href='/signup/'">Sign Up</button>
+        </div>
+    </header>
+
+    <main>
+        <section id="intro">
+            <p>EVIE - Find. Reserve. Charge.</p>
+            <p>With the rise of EVs, finding charging slots has become a challenge, causing congestion and discouraging adoption despite their environmental benefits. 'EVie – Your New Friend' solves this by helping users locate and pre-book charging slots, ensuring a seamless and reliable charging experience.</p>
+        </section>
+        
+        <section id="info">
+            <div class="text" id="about">
+                <p>
+                    As the number of electric vehicles (EVs) on the road continues to rise, the challenge of finding available charging slots has become a growing concern. This not only leads to traffic congestion but also discourages potential EV adopters, despite the significant environmental benefits of electric mobility. To address this issue and promote wider EV adoption, we have developed 'Evie – Your Smart EV Companion'— a comprehensive solution designed to enhance the EV ownership experience.  
+
+<br>With 'Evie', you can:  
+
+<br>✅Reserve and pre-book slots at EV charging stations  
+<br>✅Find the nearest EV charging stations with ease  
+<br>✅Connect with other EV owners for carpooling opportunities  
+
+<br> By ensuring a seamless charging experience and fostering an EV-friendly community, Evie makes sustainable transportation more accessible, efficient, and convenient.
+                </p>
+            </div>
+            <div class="image">
+                <img src="{% static 'placeholder-image.jpg' %}" alt="Placeholder Image">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; Kireeti Samanthapudi, Keerthi Nori</p>
+    </footer>
 </body>
 </html>

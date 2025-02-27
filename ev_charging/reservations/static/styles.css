@@ -6,24 +6,192 @@
     font-family: Arial, sans-serif;
 }
 
+:root {
+    --primary-color: #6b9da8; /* Soft teal */
+    --secondary-color: #2a4d52; /* Darker teal */
+    --accent-color: #ffffff; /* White */
+    --button-hover: #55808b; /* Hover color */
+    --text-color: #f8f8f8; /* Light text */
+}
 /* Center content on the page */
 body {
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: var(--primary-color);
+    color: var(--text-color);
 }
 
+.header {
+    width: 100%;
+    background: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 50px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    position: relative;
+}
+
+.logo-container img {
+    width: 180px;  /* Adjust width to make it bigger */
+    height: auto; /* Keeps aspect ratio */
+}
+
+.nav-container {
+    display: flex;
+    gap: 30px; /* Space between links */
+}
+
+.nav-container a {
+    text-decoration: none;
+    color: var(--accent-color);
+    font-size: 22px;
+    font-weight: bold;
+    transition: color 0.3s;
+    padding: 10px 15px;
+}
+
+.nav-container a:hover {
+    color: var(--button-hover);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px; /* Space between buttons */
+}
+
+.auth-buttons button {
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.auth-buttons button:hover {
+    background-color: var(--button-hover);
+}
+
+.main {
+    margin-top: 1000px;
+}
+
+.body{
+    padding-top: 1000px;
+}
+
+#intro {
+    text-align: center;
+    padding: 80px 20px;
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--accent-color);
+    max-width: 70%;
+    margin: auto;
+}
+
+/* Info Section */
+#info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 80%;
+    margin: 60px auto; /* Center the section with some spacing */
+    background: var(--secondary-color);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Text Section */
+#info .text {
+    width: 50%;
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--accent-color);
+    padding-right: 20px;
+}
+
+/* Image Section */
+#info .image {
+    width: 50%;
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
+    padding-left: 10px ;
+}
+
+#info .image img {
+    max-width: 90%;
+    height: auto;
+    border-radius: 10px; /* Optional: Add rounded corners */
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background: var(--secondary-color);
+    color: var(--accent-color);
+    font-size: 18px;
+}
+
+
+
 /* Container styling */
-.container {
-    background: white;
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background: var(--secondary-color);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 300px;
 }
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    color: #000;
+}
+
+/* Login Button */
+.login-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.login-container button:hover {
+    background-color: var(--button-hover);
+}
+
+.btn:hover {
+    background-color: #ffdb4d;
+}
+
 
 /* Headings */
 h1, h2 {
@@ -91,3 +259,4 @@ button:hover {
     background-color: #121212;
     color: white;
 }
+
