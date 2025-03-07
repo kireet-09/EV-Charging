@@ -1,24 +1,54 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}EV Charging{% endblock %}</title>  <!-- ✅ Keep only this one -->
-    
+    <title>{% block title %}EV Charging{% endblock %}</title>
     <style>
-        /* ✅ Dark Mode Styling */
-        body {
-            background-color: white;
-            color: black;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .dark-mode {
-            background-color: #121212;
+        
+nav {
+    background: #007bff;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* ✅ Make links & buttons look identical */
+nav a, .logout-btn {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0;
+}
+
+/* ✅ Remove white border issue */
+.logout-form {
+    display: inline;  /* Makes form behave like an inline element */
+}
+
+/* ✅ Hover Effect */
+nav a:hover, .logout-btn:hover {
+    text-decoration: underline;
+}
+
+        .logout-btn {
+            font-size: 18px;
+            font-weight: bold;
             color: white;
-        }
-        .dark-mode .container {
-            background: #1e1e1e;
-            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: inline;
         }
         .container {
             width: 50%;
@@ -27,71 +57,64 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            margin-top: 80px;
-        }
-        .toggle-btn {
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            padding: 10px;
-            cursor: pointer;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        nav {
-            background: #007bff;
-            padding: 15px;
-            text-align: center;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            transition: background-color 0.3s;
-        }
-        .dark-mode nav {
-            background: #1e1e1e;
+            margin-top: 80px; /* ✅ Prevents content from being hidden under fixed navbar */
         }
     </style>
 </head>
 <body>
-    <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
-    <script>
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        }
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
-    </script>
 
-    <nav class="navbar">
-        <div class="nav-links">
-            <a href="{% url 'home' %}">🏠 Home</a>
-            <a href="{% url 'announcements' %}">📢 Announcements</a>  <!-- ✅ Announcements Link -->
-            {% if user.is_authenticated %}
-                <a href="{% url 'my_reservations' %}">📌 My Reservations</a>
-                <a href="#" id="logout-link">🚪 Logout</a>
-                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                    {% csrf_token %}
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}">🔑 Login</a>
-            {% endif %}
-        </div>
+    <!-- ✅ Hide Navbar on Home Page -->
+    {% if request.resolver_match.url_name != "home" %}
+    <nav>
+        <a href="{% url 'home' %}">🏠 Home</a>
+        <a href="{% url 'announcements' %}">📢 Announcements</a>
     
-        <!-- ✅ Properly aligned Dark Mode button -->
-        <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
-    </nav>
+        {% if user.is_authenticated %}
+            <a href="{% url 'my_reservations' %}">📌 My Reservations</a>
     
+            <!-- ✅ Logout Link with Event Listener -->
+            <a href="#" id="logout-link">🚪 Logout</a>
+    
+            <!-- ✅ Hidden Logout Form (For CSRF Token) -->
+            <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                {% csrf_token %}
+            </form>
+    
+            <script>
+                document.getElementById("logout-link").addEventListener("click", function(event) {
+                    event.preventDefault();  // ✅ Prevents default behavior
+                    logoutUser();
+                });
+    
+                function getCSRFToken() {
+                    return document.querySelector('#logout-form input[name="csrfmiddlewaretoken"]').value;
+                }
+    
+                function logoutUser() {
+                    fetch("{% url 'logout' %}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": getCSRFToken(),
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        credentials: "same-origin"
+                    }).then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url;  //  Redirect after logout
+                        }
+                    }).catch(error => console.error("Logout failed:", error));
+                }
+            </script>
+    
+        {% else %}
+            <a href="{% url 'login' %}">🔑 Login</a>
+        {% endif %}
+    </nav>  
+    {% endif %}    
 
     <div class="container">
         {% block content %}{% endblock %}
     </div>
-</body>
-</html>
+
 </body>
 </html>

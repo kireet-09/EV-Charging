@@ -7,6 +7,7 @@ from django.contrib.auth import views as auth_views
 from .views import station_map
 from .views import dummy_payment
 from .views import announcements
+from .views import recommend_slot
 
 urlpatterns = [
     path('', home, name='home'),
@@ -19,5 +20,6 @@ urlpatterns = [
     path('cancel-reservation/<int:reservation_id>/', cancel_reservation, name='cancel_reservation'),
     path('stations/', station_map, name='stations'),
     path("dummy-payment/<int:reservation_id>/", dummy_payment, name="dummy_payment"),
-     path('announcements/', announcements, name='announcements'),
+    path('announcements/', announcements, name='announcements'),
+    path('recommend-slot/', recommend_slot, name='recommend_slot'),
 ]

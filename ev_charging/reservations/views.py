@@ -14,6 +14,8 @@ from io import BytesIO
 import base64
 from .models import Station
 from .models import Announcement
+from reservations.ml_models.demand_model import predict_demand
+from reservations.ml_models.demand_model import add_reservation_to_csv
 
 def home(request):
     return render(request, 'home.html')
@@ -113,6 +115,9 @@ def reservation(request):
             end_time__gt=reservation.start_time,  # Overlapping time
             carpool_opt_in=True  # Must have opted for carpooling
         ).exclude(user=reservation.user)  # Exclude current user
+
+        # ✅ Send reservation data to AI model
+        add_reservation_to_csv(slot.station.id, start_time.weekday(), start_time.hour)
 
         # ✅ Send confirmation email
         subject = "EV Charging Reservation Confirmed 🚗⚡"
@@ -223,3 +228,11 @@ def dummy_payment(request, reservation_id):
 def announcements(request):
     all_announcements = Announcement.objects.order_by('-created_at')  # Latest first
     return render(request, 'announcements.html', {'announcements': all_announcements})
+def recommend_slot(request):
+    station_id = int(request.GET.get("station_id"))
+    day = int(request.GET.get("day"))
+    hour = int(request.GET.get("hour"))
+
+    prediction = predict_demand(station_id, day, hour)
+    
+    return JsonResponse({"recommended_demand": prediction})

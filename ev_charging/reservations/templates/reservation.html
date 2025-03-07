@@ -21,6 +21,28 @@
                 <option value="{{ slot.id }}">Slot {{ slot.slot_number }}</option>
             {% endfor %}
         </select>
+        <!-- Add this below the slot selection -->
+<p id="recommendation">📊 Waiting for AI recommendations...</p>
+
+<script>
+    function getRecommendedSlot() {
+        let stationId = document.getElementById("station").value;
+        let day = new Date().getDay(); // Get current day (0=Sunday, 6=Saturday)
+        let hour = new Date().getHours(); // Get current hour
+
+        fetch(`/recommend-slot/?station_id=${stationId}&day=${day}&hour=${hour}`)
+            .then(response => response.json())
+            .then(data => {
+                let message = `📊 Predicted Demand: ${data.recommended_demand}`;
+                document.getElementById("recommendation").innerText = message;
+            })
+            .catch(error => console.error("Error fetching recommendation:", error));
+    }
+
+    // Call the function when the station is selected
+    document.getElementById("station").addEventListener("change", getRecommendedSlot);
+</script>
+
 
         <label for="start_time">⏰ Start Time:</label>
         <input type="datetime-local" name="start_time" required>

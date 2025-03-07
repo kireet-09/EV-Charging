@@ -1,18 +1,92 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart EV Charging</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h1>Smart EV Charging</h1>
-        <button onclick="location.href='/login/'">Login</button>
-        <button onclick="location.href='/signup/'">Sign Up</button>
-        <button onclick="location.href='{% url 'stations' %}'">📍 Find Charging Stations</button>
+{% extends 'base.html' %}
+
+{% block title %}EVie - Smart EV Charging{% endblock %}
+
+{% block content %}
+<style>
+    /* Hero Section Styling */
+    .hero {
+        text-align: center;
+        padding: 80px 20px;
+        background: linear-gradient(to right, #007bff, #00c6ff);
+        color: white;
+        border-radius: 10px;
+    }
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .hero p {
+        font-size: 1.2rem;
+        margin-top: 10px;
+    }
+    .cta-buttons {
+        margin-top: 20px;
+    }
+    .cta-buttons a {
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+        margin: 10px;
+    }
+    .btn-signup { background: #28a745; }
+    .btn-login { background: #ffc107; color: black; }
+
+    /* Features Section */
+    .features {
+        text-align: center;
+        margin-top: 40px;
+    }
+    .feature-box {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .feature-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        width: 300px;
+        text-align: center;
+    }
+    .feature-card h3 {
+        color: #007bff;
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero">
+    <h1>⚡ Welcome to EVie - Smart EV Charging</h1>
+    <p>Your one-stop solution for easy and efficient EV charging reservations.</p>
+    <div class="cta-buttons">
+        <a href="{% url 'signup' %}" class="btn-signup">🚀 Sign Up</a>
+        <a href="{% url 'login' %}" class="btn-login">🔑 Login</a>
     </div>
-</body>
-</html>
+</div>
+
+<!-- Features Section -->
+<div class="features">
+    <h2>🌟 Why Choose EVie?</h2>
+    <div class="feature-box">
+        <div class="feature-card">
+            <h3>🔌 Easy Slot Booking</h3>
+            <p>Reserve EV charging slots in just a few clicks.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📍 Find Charging Stations</h3>
+            <p>Locate the nearest EV stations with real-time availability.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🚗 Carpooling Feature</h3>
+            <p>Save energy by sharing rides with fellow EV owners.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📩 Instant Notifications</h3>
+            <p>Get email alerts for your bookings and payments.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
