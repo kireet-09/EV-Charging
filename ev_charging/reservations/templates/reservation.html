@@ -5,17 +5,17 @@
 {% block content %}
     <h2>⚡ Reserve Your Charging Slot</h2>
 
-    <form method="POST">
+    <form method="POST" class="form-container">
         {% csrf_token %}
         
-        <label for="station">📍 Select Station:</label>
+        <label for="station"><b>📍 Select Station:</b></label>
         <select name="station" id="station">
             {% for station in stations %}
                 <option value="{{ station.id }}">{{ station.name }}</option>
             {% endfor %}
         </select>
 
-        <label for="slot">🔢 Select Slot:</label>
+        <label for="slot"><b>🔢 Select Slot:</b></label>
         <select name="slot" id="slot">
             {% for slot in slots %}
                 <option value="{{ slot.id }}">Slot {{ slot.slot_number }}</option>
@@ -44,13 +44,13 @@
 </script>
 
 
-        <label for="start_time">⏰ Start Time:</label>
+        <label for="start_time"><b>⏰ Start Time: </b></label>
         <input type="datetime-local" name="start_time" required>
 
-        <label for="end_time">⌛ End Time:</label>
+        <label for="end_time"><b>⌛ End Time:</b></label>
         <input type="datetime-local" name="end_time" required>
         
-        <label for="carpool">🚗 Join Carpool?</label>
+        <label for="carpool"><b>🚗 Join Carpool?</b></label>
         <input type="checkbox" name="carpool" id="carpool">
 
         <button type="submit" class="btn">🚀 Reserve Now</button>
@@ -59,39 +59,58 @@
     <a href="{% url 'my_reservations' %}" class="btn">📌 View My Reservations</a>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            width: 50%;
-            margin: auto;
-            text-align: left;
-        }
-        label, select, input {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        .btn {
-            display: inline-block;
-            background: #28a745;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background: #218838;
-        }
+        :root {
+        --primary-color: #6b9da8; /* Soft teal */
+        --secondary-color: #2a4d52; /* Darker teal */
+        --accent-color: #ffffff; /* White */
+        --button-hover: #55808b; /* Hover color */
+        --text-color: #f8f8f8; /* Light text */
+       }
+
+       body {
+        background-color: var(--primary-color);
+        color: var(--text-color);
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    form {
+        background: var(--secondary-color);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        width: 60%;
+        margin: auto;
+        text-align: left;
+        color: var(--accent-color);
+    }
+    label, select, input {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        background: white;
+        color: black;
+    }
+    .btn {
+        display: inline-block;
+        background: var(--primary-color);
+        color: var(--accent-color);
+        padding: 12px 18px;
+        text-decoration: none;
+        border-radius: 8px;
+        margin-top: 15px;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background: var(--button-hover);
+    }
     </style>
     {% if messages %}
     <script>
