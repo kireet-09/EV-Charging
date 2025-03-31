@@ -1,9 +1,11 @@
 🚀 EVie - SMART EV CHARGING RESERVATION SYSTEM
-By: Kireeti Samanthapudi and Keerthi Nori
-For the Hackathon: "Hack The Future: Solve today’s problems with tomorrow’s technology"
+
+By: Kireeti Samanthapudi and Keerthi NoriFor the Hackathon: "Hack The Future: Solve today’s problems with tomorrow’s technology"
 
 ✅ Features (Current & Future)
+
 🔥 Implemented Features (MVP)
+
 1️⃣ User Authentication
 
 Secure Sign Up/Login for EV owners and charging station admins.
@@ -57,6 +59,7 @@ Slot availability automatically updates when a reservation is made or canceled.
 Prevents duplicate or incorrect bookings.
 
 🚀 Planned Features (Future Enhancements)
+
 ✅ 1. Charging Station Finder (Coming Soon 🚧)
 
 Interactive Google Maps API / Leaflet.js for locating nearby charging stations.
@@ -76,6 +79,7 @@ AI-based demand prediction for efficient energy distribution.
 Load balancing to optimize charging sessions and reduce energy waste.
 
 🌍 Relevance to Hackathon Theme
+
 Our project aligns with the "Autonomous Transport: Rethinking Mobility for a Sustainable Future" theme by offering:
 
 ♻️ Sustainability: Supports electric vehicle adoption and eco-friendly transport.
@@ -87,6 +91,7 @@ Our project aligns with the "Autonomous Transport: Rethinking Mobility for a Sus
 🔥 Scalability: Can integrate with smart city infrastructure.
 
 ⚙️ Tech Stack Used
+
 ✅ Frontend:
 
 HTML, CSS, JavaScript
@@ -112,7 +117,9 @@ Gmail SMTP for email notifications
 Google Maps API / Leaflet.js (future enhancement)
 
 🛠️ Project Setup
+
 💻 Tools Required:
+
 VS Code / PyCharm for coding
 
 Postman for API testing
@@ -122,9 +129,7 @@ Git & GitHub for version control
 Virtual Environment for dependency management
 
 ⚙️ Initialize the Django Project:
-bash
-Copy
-Edit
+
 # Install Django & REST framework
 pip install django djangorestframework
 
@@ -134,8 +139,11 @@ cd ev_charging_system
 python manage.py startapp reservations  
 
 # Configure settings (database, installed apps, middleware, etc.)
+
 🔨 Project Development
+
 ✅ Backend Development:
+
 1️⃣ User Authentication:
 
 Django’s built-in authentication system.
@@ -179,6 +187,7 @@ Uses Gmail SMTP settings.
 Django’s send_mail() function for seamless notifications.
 
 🎨 Frontend Development
+
 1️⃣ Responsive UI:
 
 User-friendly pages:
@@ -202,6 +211,7 @@ Grid-based layout with navigation cards.
 Displays reservation insights, AI predictions, and links.
 
 ⚡ API Endpoints
+
 📌 Reservation Endpoints:
 
 GET /reservation/ → View available slots
@@ -225,9 +235,7 @@ GET /ai-predict/<station_id>/ → Fetch AI demand prediction
 Returns JSON response with wait time and availability status.
 
 📁 Folder Structure
-bash
-Copy
-Edit
+
 /ev_charging  
 │── ev_charging/         # Main project folder  
 │── reservations/        # Reservation app (models, views, templates)  
@@ -235,7 +243,9 @@ Edit
 │── static/              # CSS, JS, images  
 │── db.sqlite3           # Database file  
 │── manage.py            # Django management script  
+
 🛡️ Conclusion
+
 ✅ Key Takeaways:
 
 EVie solves major pain points for EV owners by offering:
@@ -259,3 +269,4 @@ Reduces traffic congestion at charging stations.
 Promotes environmentally friendly transport through carpooling.
 
 🚗⚡ Thank you for using EVie – Smart EV Charging Reservation System! 🚦
+
