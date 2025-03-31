@@ -1,136 +1,261 @@
-EVie - SMART EV CHARGING RESERVATION SYSTEM
+🚀 EVie - SMART EV CHARGING RESERVATION SYSTEM
+By: Kireeti Samanthapudi and Keerthi Nori
+For the Hackathon: "Hack The Future: Solve today’s problems with tomorrow’s technology"
 
-BY: Kireeti Samanthapudi and Keerthi Nori
-For ‘Hack The Future: Solve today’s problems with tomorrow’s Technology’ Hackathon
+✅ Features (Current & Future)
+🔥 Implemented Features (MVP)
+1️⃣ User Authentication
 
-## Features (Current & Future)
+Secure Sign Up/Login for EV owners and charging station admins.
 
-### Implemented Features (MVP):
-1️⃣ **User Authentication**
-   - Secure Sign Up/Login for EV owners & charging station admins.
-   - Authentication handled using Django’s built-in system.
+Authentication handled using Django’s built-in system.
 
-2️⃣ **Slot Booking & Management**
-   - Users can reserve charging slots for a specific time.
-   - Admins can set station availability & manage reservations.
+Users are redirected to a personalized dashboard after login.
 
-3️⃣ **Email Notification System**
-   - Automatic email notifications for booking confirmations and cancellations.
-   - Uses Gmail SMTP for secure email delivery.
+2️⃣ Slot Booking & Management
 
-### Planned Features (Future Enhancements):
-3️⃣ **Charging Station Finder (Coming Soon 🚧)**
-   - Interactive Google Maps API / Leaflet.js for locating nearby charging stations.
-   - Filters for charging speed, price, and availability.
+Users can reserve charging slots for a specific time.
 
-4️⃣ **Payment & Billing System (Coming Soon 💳)**
-   - Stripe/Razorpay integration for online payments.
-   - Invoice generation & transaction tracking for users.
+Admins can manage stations, set availability, and oversee reservations.
 
-5️⃣ **Smart Charging Optimization (Future Development 🤖⚡)**
-   - AI-based demand prediction for efficient energy distribution.
-   - Load balancing to optimize charging sessions.
+Dynamic slot loading based on the selected station.
 
-## Relevance to Hackathon Theme
-Our Project is aligned with the Theme of the Hackathon: **'Autonomous Transport: Rethinking Mobility for a Sustainable Future'**
+3️⃣ AI-Powered Demand Prediction
 
-01 **Sustainability** - Supports electric vehicle adoption
-02 **Traffic Optimization** - Reduces congestion at charging stations
-03 **Safety & Accessibility** - Increases accessibility for EV users
-04 **Scalability** - Can integrate with smart city infrastructure
+Integrated AI model for demand prediction.
 
-## Tech Stack Used:
-- **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Django & Django REST Framework
-- **Database:** MySQL or SQLite
-- **APIs:** Google Maps API (for location search), Payment Gateway (Stripe/Razorpay)
+Displays estimated wait time and traffic status for each station.
 
-## Project Setup:
-### Tools Required:
-- VS Code / PyCharm for coding
-- Postman for API testing
-- Git & GitHub for version control
-- Virtual Environment for dependency management
+Real-time updates for smarter slot booking decisions.
 
-### Initialize the Django Project:
-```sh
+4️⃣ Email Notification System
+
+Automatic email notifications for booking confirmations and cancellations.
+
+Uses Gmail SMTP for secure email delivery.
+
+5️⃣ Dynamic Carpooling Feature
+
+Users can create or join carpools with other EV users.
+
+Displays carpool details with departure time, destination, and members.
+
+6️⃣ Interactive Dashboard
+
+Upon login, users are directed to a dashboard with:
+
+Navigation buttons for reservations, carpooling, and station search.
+
+AI predictions and reservation management.
+
+Dark mode toggle for personalized viewing.
+
+7️⃣ Real-Time Slot Updates
+
+Slot availability automatically updates when a reservation is made or canceled.
+
+Prevents duplicate or incorrect bookings.
+
+🚀 Planned Features (Future Enhancements)
+✅ 1. Charging Station Finder (Coming Soon 🚧)
+
+Interactive Google Maps API / Leaflet.js for locating nearby charging stations.
+
+Filters for charging speed, price, and availability.
+
+✅ 2. Payment & Billing System (Coming Soon 💳)
+
+Stripe/Razorpay integration for online payments.
+
+Invoice generation & transaction tracking for users.
+
+✅ 3. Smart Charging Optimization (Future Development 🤖⚡)
+
+AI-based demand prediction for efficient energy distribution.
+
+Load balancing to optimize charging sessions and reduce energy waste.
+
+🌍 Relevance to Hackathon Theme
+Our project aligns with the "Autonomous Transport: Rethinking Mobility for a Sustainable Future" theme by offering:
+
+♻️ Sustainability: Supports electric vehicle adoption and eco-friendly transport.
+
+🚦 Traffic Optimization: Reduces congestion at charging stations.
+
+✅ Safety & Accessibility: Increases accessibility and convenience for EV users.
+
+🔥 Scalability: Can integrate with smart city infrastructure.
+
+⚙️ Tech Stack Used
+✅ Frontend:
+
+HTML, CSS, JavaScript
+
+Bootstrap for styling
+
+✅ Backend:
+
+Django & Django REST Framework
+
+Python for AI model integration
+
+✅ Database:
+
+MySQL or SQLite for reservation data management
+
+✅ APIs & Services:
+
+AI model for demand prediction
+
+Gmail SMTP for email notifications
+
+Google Maps API / Leaflet.js (future enhancement)
+
+🛠️ Project Setup
+💻 Tools Required:
+VS Code / PyCharm for coding
+
+Postman for API testing
+
+Git & GitHub for version control
+
+Virtual Environment for dependency management
+
+⚙️ Initialize the Django Project:
+bash
+Copy
+Edit
+# Install Django & REST framework
 pip install django djangorestframework
-```
-```sh
-django-admin startproject ev_charging_system
-cd ev_charging_system
-python manage.py startapp reservations
-```
-- Configure settings (database, installed apps, middleware, etc.)
 
-## Project Development:
-### Backend Development:
-1️⃣ **Implement User Authentication**
-   - Use Django’s built-in authentication system.
-   - Create user models for EV owners and charging station admins.
-   - Use Django REST Framework for API-based login/signup.
+# Start the project
+django-admin startproject ev_charging_system  
+cd ev_charging_system  
+python manage.py startapp reservations  
 
-2️⃣ **Develop the Slot Booking System**
-   - Create models for Charging Stations, Slots, and Bookings.
-   - Define API endpoints for:
-     - Viewing available stations.
-     - Booking a slot.
-     - Canceling a reservation.
-     - Fetching booking history.
+# Configure settings (database, installed apps, middleware, etc.)
+🔨 Project Development
+✅ Backend Development:
+1️⃣ User Authentication:
 
-3️⃣ **Implement Real-Time Availability Updates**
-   - Use WebSockets or periodic API polling.
-   - Each station updates available slots dynamically.
+Django’s built-in authentication system.
 
-4️⃣ **Email Notification System**
-   - Automatic email confirmation for bookings & cancellations.
-   - Uses Gmail SMTP settings.
-   - Django’s `send_mail` function for seamless notifications.
+Separate user models for EV owners and admins.
 
-5️⃣ **Payment Gateway Integration**
-   - Integrate Stripe/Razorpay API for online payments.
-   - Store transaction details in the database.
+Django REST Framework for API-based login/signup.
 
-### Frontend Development:
-1️⃣ **Create a Responsive UI**
-   - Design user-friendly pages: Home, Station Finder, Booking, Payments, Dashboard.
-   - Use Bootstrap or TailwindCSS for styling.
+2️⃣ Slot Booking System:
 
-2️⃣ **Integrate Google Maps API / Leaflet.js**
-   - Display charging stations on an interactive map.
-   - Allow users to search by location.
+Models for Charging Stations, Slots, and Bookings.
 
-3️⃣ **Connect Frontend with Backend APIs**
-   - Use JavaScript (AJAX/Fetch API) to send & receive data.
-   - Implement error handling for failed bookings/payments.
+API endpoints for:
 
-## API Endpoints
-- `GET /reservation/` – View available slots
-- `POST /reservation/` – Book a slot
-- `POST /cancel-reservation/<id>/` – Cancel a reservation
+Viewing available stations.
 
-## Folder Structure
-```
-/ev_charging
-│── ev_charging/       # Main project folder
-│── reservations/      # Reservation app (models, views, etc.)
-│── templates/         # Frontend templates
-│── static/            # CSS, JS, images
-│── db.sqlite3         # Database file
-│── manage.py          # Django management script
-```
+Booking a slot.
 
-## Conclusion
-### Key Takeaways:
-- The **Smart EV Charging Reservation System** solves major pain points for EV owners.
-- It provides real-time availability, location-based search, and seamless booking & payment.
-- Aligns with sustainability and smart city goals for a greener future.
+Canceling reservations.
 
-### Impact on Sustainable Mobility:
-- **Supports widespread EV adoption** by making charging more accessible.
-- **Reduces traffic congestion** at charging stations.
-- **Ensures efficient energy use** with demand-based charging.
+Fetching booking history.
 
----
-🚗⚡ **Thank you!**
+3️⃣ AI-Powered Demand Prediction:
 
+Real-time wait time and traffic estimation using AI models.
+
+Displayed dynamically based on selected stations.
+
+4️⃣ Real-Time Availability Updates:
+
+Uses AJAX calls for seamless data fetching.
+
+Dynamic station and slot rendering without reloading the page.
+
+5️⃣ Email Notification System:
+
+Automatic email confirmation for bookings & cancellations.
+
+Uses Gmail SMTP settings.
+
+Django’s send_mail() function for seamless notifications.
+
+🎨 Frontend Development
+1️⃣ Responsive UI:
+
+User-friendly pages:
+
+Home, Station Finder, Reservations, Carpooling, Payments, Dashboard.
+
+Bootstrap used for styling.
+
+Dark mode toggle button for improved accessibility.
+
+2️⃣ Dynamic Slot Loading:
+
+JavaScript & AJAX for dynamic station-slot pairing.
+
+Ensures only relevant slots appear when a station is selected.
+
+3️⃣ Interactive Dashboard:
+
+Grid-based layout with navigation cards.
+
+Displays reservation insights, AI predictions, and links.
+
+⚡ API Endpoints
+📌 Reservation Endpoints:
+
+GET /reservation/ → View available slots
+
+POST /reservation/ → Book a slot
+
+POST /cancel-reservation/<id>/ → Cancel a reservation
+
+📌 Carpooling Endpoints:
+
+GET /carpooling/ → View available carpools
+
+POST /carpooling/join/<id>/ → Join a carpool
+
+POST /carpooling/create/ → Create a carpool
+
+📌 AI Model Endpoints:
+
+GET /ai-predict/<station_id>/ → Fetch AI demand prediction
+
+Returns JSON response with wait time and availability status.
+
+📁 Folder Structure
+bash
+Copy
+Edit
+/ev_charging  
+│── ev_charging/         # Main project folder  
+│── reservations/        # Reservation app (models, views, templates)  
+│── templates/           # Frontend HTML templates  
+│── static/              # CSS, JS, images  
+│── db.sqlite3           # Database file  
+│── manage.py            # Django management script  
+🛡️ Conclusion
+✅ Key Takeaways:
+
+EVie solves major pain points for EV owners by offering:
+
+Real-time availability.
+
+Location-based station search.
+
+Seamless booking, management, and carpooling.
+
+Enhances sustainable mobility and reduces congestion.
+
+Ensures efficient energy usage with AI-powered demand prediction.
+
+✅ Impact on Sustainable Mobility:
+
+Supports widespread EV adoption by making charging more accessible.
+
+Reduces traffic congestion at charging stations.
+
+Promotes environmentally friendly transport through carpooling.
+
+🚗⚡ Thank you for using EVie – Smart EV Charging Reservation System! 🚦
